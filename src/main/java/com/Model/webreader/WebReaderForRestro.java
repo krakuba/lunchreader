@@ -7,6 +7,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,24 +15,29 @@ import java.util.List;
 public class WebReaderForRestro implements WebReader {
     private static final String baseUrl= "http://www.restro.pl/lunch";
     private final RestaurantType restName = RestaurantType.RESTRO;
-    @Override
-    public List<String> read() {
-        String content = "";
-        try {
-            Connection connection = Jsoup.connect(baseUrl);
-            Document doc = connection.get();
-            Elements elements = doc.getElementsByClass("txt-col-content");
-            content = elements.text();
-        } catch (Exception ex) {}
-        return Arrays.asList(content);//processElements(content);
-    }
 
+    @Override
     public List<MenuImpl> getMenuOptions() {
         List<MenuImpl> list = new ArrayList<>();
         for(String prop : read()){
             list.add(new MenuImpl(restName, getDescFromProp(prop), getPriceFromProp(prop)));
         }
         return list;
+    }
+
+    private List<String> read() {
+        String content = "";
+        try {
+            Connection connection = Jsoup.connect(baseUrl);
+            Document doc = connection.get();
+            Elements elements = doc.getElementsByClass("txt-col-content");
+            content = elements.text();
+        } catch (ConnectException ex) {
+            System.out.println("Could not connect");
+        } catch (Exception ex) {
+            System.out.println("Could not read page");
+        }
+        return Arrays.asList(content);//processElements(content);
     }
 
     private String getDescFromProp(String prop) {

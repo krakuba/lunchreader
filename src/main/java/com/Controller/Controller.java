@@ -20,7 +20,8 @@ public class Controller {
     @RequestMapping("/")
     public String listOfItems(Model model) {
         ContentProvider cp = new ContentProvider();
-        model.addAttribute("naszemiejsceMenu", getListOfOptions(cp, NASZE_MIEJSCE));
+        List<MenuImpl> items = getListOfOptions(cp, NASZE_MIEJSCE);
+        model.addAttribute("naszemiejsceMenu", items);
         //model.addAttribute("restroMenu", getListOfOptions(cp, RESTRO));
         return "test";
     }

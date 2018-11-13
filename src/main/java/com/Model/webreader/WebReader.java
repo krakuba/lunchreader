@@ -1,7 +1,9 @@
 package com.Model.webreader;
 
+import com.Model.ObjectImpl.MenuImpl;
+
 import java.util.List;
 
 public interface WebReader {
-    List<String> read();
+    List<MenuImpl> getMenuOptions();
 }
