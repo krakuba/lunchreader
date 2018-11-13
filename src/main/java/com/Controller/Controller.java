@@ -23,7 +23,7 @@ public class Controller {
         List<MenuImpl> items = getListOfOptions(cp, NASZE_MIEJSCE);
         model.addAttribute("naszemiejsceMenu", items);
         //model.addAttribute("restroMenu", getListOfOptions(cp, RESTRO));
-        return "test";
+        return "index";
     }
 
     private List<MenuImpl> getListOfOptions(ContentProvider cp, RestaurantType typeOfPlace) {
