@@ -32,10 +32,8 @@ public class WebReaderForNaszeMiejsce extends WebReaderImpl implements WebReader
             Document doc = connection.get();
             Elements elements = doc.getElementsByClass("entry");
             content = elements.text();
-        } catch (ConnectException ex) {
-            System.out.println("Could not connect");
         } catch (Exception ex) {
-            System.out.println("Could not read page");
+            ex.printStackTrace();
         }
         return processElements(content);
     }
@@ -46,8 +44,8 @@ public class WebReaderForNaszeMiejsce extends WebReaderImpl implements WebReader
             int i = desc.lastIndexOf(".");
             String text = desc.trim().substring(0, i+1);
             return removeEmptySpaceBeforeDotsAndCommas(text);
-        } catch (StringIndexOutOfBoundsException e) {
-            e.printStackTrace();
+        } catch (StringIndexOutOfBoundsException ex) {
+            ex.printStackTrace();
         }
         return "";
     }

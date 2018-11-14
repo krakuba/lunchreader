@@ -47,6 +47,20 @@
         </tr>
         </c:forEach>
         <tbody>
+
+        <thead>
+        <tr>
+            <th>CHMIERLARNIA</th>
+        <tr>
+        </thead>
+        <tbody class="table-body">
+        <c:forEach items="${chmielarniaMenu}" var="opt">
+        <tr class="tr_hover">
+            <td class="desc"><c:out value="${opt.option}" /></td>
+            <td class="price"><c:out value="${opt.price}" /></td>
+        </tr>
+        </c:forEach>
+        <tbody>
     </table>
 </div>
 </body>

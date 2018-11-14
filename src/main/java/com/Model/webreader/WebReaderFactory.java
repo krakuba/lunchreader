@@ -1,7 +1,6 @@
 package com.Model.webreader;
 
 import com.Model.ObjectImpl.RestaurantType;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class WebReaderFactory {
     public WebReader getReader(RestaurantType type) {
@@ -10,8 +9,11 @@ public class WebReaderFactory {
                 return new WebReaderForNaszeMiejsce();
             case RESTRO:
                 return new WebReaderForRestro();
+            case CHMIERLARNIA:
+                return new WebReaderForChmielarnia();
             default:
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
+                return null;
         }
     }
 }

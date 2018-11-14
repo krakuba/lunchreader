@@ -8,36 +8,22 @@ import com.Model.webreader.WebReaderForNaszeMiejsce;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
 
+import static com.Model.ObjectImpl.RestaurantType.CHMIERLARNIA;
 import static com.Model.ObjectImpl.RestaurantType.NASZE_MIEJSCE;
 import static com.Model.ObjectImpl.RestaurantType.RESTRO;
 
 @org.springframework.stereotype.Controller
 public class Controller {
-
     @RequestMapping("/")
     public String listOfItems(Model model) {
         ContentProvider cp = new ContentProvider();
-        //List<MenuImpl> items = getListOfOptions(cp, NASZE_MIEJSCE);
-        model.addAttribute("naszemiejsceMenu", getListOfOptions(cp, NASZE_MIEJSCE));
-
-        //List<MenuImpl> itemsRestro = getListOfOptions(cp, RESTRO);
-        model.addAttribute("restroMenu", getListOfOptions(cp, RESTRO));
+        model.addAttribute("naszemiejsceMenu", cp.getMenuForRestaurant(NASZE_MIEJSCE));
+        model.addAttribute("restroMenu", cp.getMenuForRestaurant(RESTRO));
+        model.addAttribute("chmielarniaMenu", cp.getMenuForRestaurant(CHMIERLARNIA));
         return "index";
-    }
-
-    private List<MenuImpl> getListOfOptions(ContentProvider cp, RestaurantType typeOfPlace) {
-        List<MenuImpl> listOfItemsMenu = new ArrayList<>();
-        List<RestaurantImpl> rests = cp.getRestaurantsAndMenu();
-        for(RestaurantImpl item : rests){
-            for(MenuImpl menu : item.menuOptions){
-                if(menu.getName().equals(typeOfPlace)) {
-                    listOfItemsMenu.add(menu);
-                }
-            }
-        }
-        return listOfItemsMenu;
     }
 }

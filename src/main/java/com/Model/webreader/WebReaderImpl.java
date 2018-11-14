@@ -2,6 +2,7 @@ package com.Model.webreader;
 
 import com.Model.ObjectImpl.MenuImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class WebReaderImpl {

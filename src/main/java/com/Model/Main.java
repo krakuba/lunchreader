@@ -18,37 +18,17 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-
-        String test = "27,00 zł Zupa ze słodkiej kapusty";
-        System.out.println(test.trim().replaceAll(",00", "").substring(0, 5));
-//        String baseUrl= "http://www.restro.pl/lunch";
-//        try {
-//            Connection connection = Jsoup.connect(baseUrl);
-//            Document doc = connection.get();
-//            Elements elements = doc.getElementsByClass("txt-col-content");
-//            List<String> listOfResults = new ArrayList<>();
-//            for (Element item : elements){
-//                listOfResults.add(item.text());
-//            }
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
+        String opt = "Krem z pieczonego selera z karmelizowanym jabłkiem i szałwią. Lasagne z duszoną wołowiną i korzennymi warzywami w słodkich pomidorach z pieczarkami, kaparami, szalotką w aromacie bazylii zapieczona z serem mozzarella, sosem beszamelowym i szpinakiem. Krucha sałata z grillowanym ananasem, pestkami dyni i balsamiczną winegret.";
+        System.out.println(PrintSentencesIntoNewLine(opt));
     }
 
-    private static List<String> processElements(String content) {
-        List<String> listOfResults = new ArrayList<>();
-        int counter = StringUtils.countOccurrencesOf(content, "zł");
-        int index = -1;
-        String text = "";
-        int i = 0;
-        while(i < counter){
-            String res = content.substring(0, content.indexOf("zł"));
-            index = content.indexOf("zł") + 1;
-            content.replaceAll(res, "");
-            listOfResults.add(res);
-            i++;
+    public static String PrintSentencesIntoNewLine(String text) {
+        String result = "";
+        for(String i : text.split("\\.")){
+            result = result.concat(i);
+            result = result.concat(".");
+            result = result.concat("<br>");
         }
-
-        return listOfResults;
+        return result;
     }
 }
