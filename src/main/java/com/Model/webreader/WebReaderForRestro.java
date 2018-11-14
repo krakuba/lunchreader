@@ -5,46 +5,49 @@ import com.Model.ObjectImpl.RestaurantType;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.net.ConnectException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class WebReaderForRestro implements WebReader {
     private static final String baseUrl= "http://www.restro.pl/lunch";
-    private final RestaurantType restName = RestaurantType.RESTRO;
+    private final RestaurantType restaurantType = RestaurantType.RESTRO;
 
     @Override
     public List<MenuImpl> getMenuOptions() {
         List<MenuImpl> list = new ArrayList<>();
-        for(String prop : read()){
-            list.add(new MenuImpl(restName, getDescFromProp(prop), getPriceFromProp(prop)));
+        List<String> readResult = read();
+        for(String prop : readResult){
+            list.add(new MenuImpl(restaurantType, getDescFromProp(prop), getPriceFromProp(prop)));
         }
         return list;
     }
 
     private List<String> read() {
-        String content = "";
+        List<String> listOfResults = new ArrayList<>();
         try {
             Connection connection = Jsoup.connect(baseUrl);
             Document doc = connection.get();
             Elements elements = doc.getElementsByClass("txt-col-content");
-            content = elements.text();
-        } catch (ConnectException ex) {
-            System.out.println("Could not connect");
+
+            for (Element item : elements){
+                listOfResults.add(item.text());
+            }
         } catch (Exception ex) {
-            System.out.println("Could not read page");
+            ex.printStackTrace();
         }
-        return Arrays.asList(content);//processElements(content);
+        listOfResults.remove(listOfResults.size() - 1);
+        //return processElements(listOfResults);
+        return listOfResults;
     }
 
     private String getDescFromProp(String prop) {
         try {
-            String desc = prop.substring(3).trim();
+            String desc = prop.trim().replaceAll(",00", "").substring(5);
             int i = desc.lastIndexOf(".");
-            return desc.trim().substring(0, i+1);
+            return desc.trim();
         } catch (StringIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
@@ -53,24 +56,18 @@ public class WebReaderForRestro implements WebReader {
 
     private String getPriceFromProp(String prop) {
         try {
-            String txt = prop.trim().substring(3);
-            int i = txt.indexOf("2");
-            return txt.substring(i, i+5);
+            return prop.trim().replaceAll(",00", "").substring(0, 5);
         } catch (StringIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
         return "";
     }
 
-    private List<String> processElements(String content) {
+    private List<String> processElements(List<String> contentList) {
         ArrayList<String> listOfResults = new ArrayList<>();
-        String[] props = content.split("Propozycja");
-        int i = 0;
-        for(String prop : props){
-            listOfResults.add(props[i]);
-            i++;
-        }
-        listOfResults.remove(0);
+//        for(String content : contentList){
+//            content.replaceAll("\\s+(?=[****])", ".");
+//        }
         return listOfResults;
     }
 }

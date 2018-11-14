@@ -12,15 +12,15 @@ import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WebReaderForNaszeMiejsce implements WebReader {
+public class WebReaderForNaszeMiejsce extends WebReaderImpl implements WebReader {
     private static final String baseUrl= "https://naszemiejscerestauracja.pl/lunch/";
-    private final RestaurantType restName = RestaurantType.NASZE_MIEJSCE;
+    private final RestaurantType restaurantType = RestaurantType.NASZE_MIEJSCE;
 
     @Override
     public List<MenuImpl> getMenuOptions() {
         List<MenuImpl> list = new ArrayList<>();
         for(String prop : read()){
-            list.add(new MenuImpl(restName, getDescFromProp(prop), getPriceFromProp(prop)));
+            list.add(new MenuImpl(restaurantType, getDescFromProp(prop), getPriceFromProp(prop)));
         }
         return list;
     }
@@ -44,7 +44,8 @@ public class WebReaderForNaszeMiejsce implements WebReader {
         try {
             String desc = prop.substring(3).trim();
             int i = desc.lastIndexOf(".");
-            return desc.trim().substring(0, i+1);
+            String text = desc.trim().substring(0, i+1);
+            return removeEmptySpaceBeforeDotsAndCommas(text);
         } catch (StringIndexOutOfBoundsException e) {
             e.printStackTrace();
         }

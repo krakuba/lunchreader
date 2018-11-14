@@ -6,16 +6,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Basic reader</title>
-    <spring:url value="/css/style.css" var="styleCss" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="${styleCss}" rel="stylesheet">
-    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        .table-hover tbody tr:hover {
-            background-color: rgb(198, 201, 206)
-        }
-    </style>
+    <link href="<c:url value="/css/main.css" />" rel="stylesheet"  type="text/css" />
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark" id="navbar">
@@ -31,8 +25,22 @@
             <th>NASZE MIEJSCE</th>
         <tr>
         </thead>
-        <tbody>
+        <tbody class="table-body">
         <c:forEach items="${naszemiejsceMenu}" var="opt">
+        <tr class="tr_hover">
+            <td class="desc"><c:out value="${opt.option}" /></td>
+            <td class="price"><c:out value="${opt.price}" /></td>
+        </tr>
+        </c:forEach>
+        <tbody>
+
+        <thead>
+        <tr>
+            <th>RESTRO</th>
+        <tr>
+        </thead>
+        <tbody class="table-body">
+        <c:forEach items="${restroMenu}" var="opt">
         <tr class="tr_hover">
             <td class="desc"><c:out value="${opt.option}" /></td>
             <td class="price"><c:out value="${opt.price}" /></td>
@@ -42,4 +50,5 @@
     </table>
 </div>
 </body>
+<footer></footer>
 </html>
